@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package onboarding;
+
+
+service OnboardingService{
+    //This method is to verify a user's email by sending a one time code 
+    rpc SendVerifyEmailCode (SendVerifyEmailCodeRequest) returns (EmptyResponse){}
+    // This actually verifies the email the given email
+    rpc VerifyEmail (VerifyEmailRequest) returns (EmptyResponse){}
+   //This registers the user useint the RegisterRequest & Response
+    rpc Register (ReqisterRequest) returns (GetUserTokenResponse){}
+    //This logs the user on to the Roava App
+    rpc LogUserOnUisngToken (GetUserTokenRequest) returns (GetUserTokenResponse){}
+    // Initiates a password request for the user
+    rpc ForgotPassword (ForgotPasswordRequest) returns (EmptyResponse){}
+    //This does a password reset for the user
+    rpc ResetPassword (ResetPasswordRequest) returns (GetUserTokenResponse){}
+
+    rpc Hello (HelloInputRequest) returns (HelloOutputResponse){}
+}
+message HelloInputRequest{
+    string name=1;
+}
+
+message HelloOutput{
+    string message = 1;
+}
+message HelloOutputResponse{
+    HelloOutput data = 1;
+    int32 responseCode = 2;
+    string responseMessage = 3;
+}
+message ResetPasswordRequest{
+    string email= 1;
+    string verificationCode=2;
+    string password=3;
+}
+message ForgotPasswordRequest{
+    string email = 1;
+}
+message GetUserTokenRequest{
+    string email = 1;
+    string password=2;
+}
+message ReqisterRequest{
+    string email = 1;
+    string verificationCode = 2;
+    string firstName=3;
+    string lastName=4;
+    string password=5;
+}
+
+message VerifyEmailRequest{
+    string email = 1;
+    string verificationCode = 2;
+}
+
+message SendVerifyEmailCodeRequest{
+    string email = 1;
+}
+
+
+message EmptyResponse{
+    int32 responseCode = 2;
+    string responseMessage = 3;
+}
+message GetUserTokenData{
+    string accessToken=1;
+    string email=2;
+    string firstName=3;
+    string lastName=4;
+}
+message GetUserTokenResponse{
+    GetUserTokenData data = 1;
+    int32 responseCode = 2;
+    string responseMessage = 3;
+}
